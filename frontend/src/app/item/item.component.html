@@ -1,0 +1,71 @@
+<div class="container mt-4">
+    <h2>Peliculas y series</h2>
+  
+    <!-- Formulario para crear/editar un item -->
+    <form #itemForm="ngForm" (ngSubmit)="itemForm.valid && (currentItem._id ? updateItem(currentItem._id, currentItem) : createItem(currentItem))" novalidate>
+      
+      <!-- Campo Nombre -->
+      <div class="form-group">
+        <label for="name">Nombre:</label>
+        <input
+          type="text"
+          class="form-control"
+          id="name"
+          [(ngModel)]="currentItem.name"
+          name="name"
+          required
+          #name="ngModel"
+          [ngClass]="{ 'is-invalid': name.invalid && (name.dirty || name.touched), 'is-valid': name.valid }"
+        />
+        <div *ngIf="name.invalid && (name.dirty || name.touched)" class="invalid-feedback">
+          El nombre es obligatorio.
+        </div>
+      </div>
+  
+      <!-- Campo Descripción -->
+      <div class="form-group">
+        <label for="description">Descripción:</label>
+        <input
+          type="text"
+          class="form-control"
+          id="description"
+          [(ngModel)]="currentItem.description"
+          name="description"
+          required
+          #description="ngModel"
+          [ngClass]="{ 'is-invalid': description.invalid && (description.dirty || description.touched), 'is-valid': description.valid }"
+        />
+        <div *ngIf="description.invalid && (description.dirty || description.touched)" class="invalid-feedback">
+          La descripción es obligatoria.
+        </div>
+      </div>
+  
+      <!-- Botón de Envío -->
+      <button type="submit" class="btn btn-primary" [disabled]="itemForm.invalid">
+        {{ currentItem._id ? 'Actualizar' : 'Agregar' }}
+      </button>
+    </form>
+  
+    <hr />
+  
+    <!-- Lista de items -->
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Descripción</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of items">
+          <td>{{ item.name }}</td>
+          <td>{{ item.description }}</td>
+          <td>
+            <button class="btn btn-sm btn-primary" (click)="editItem(item._id)">Editar</button>
+            <button class="btn btn-sm btn-danger" (click)="deleteItem(item._id)">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
