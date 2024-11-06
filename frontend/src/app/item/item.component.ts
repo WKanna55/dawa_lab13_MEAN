@@ -67,4 +67,10 @@ export class ItemComponent implements OnInit {
     this.getItemById(id);
   }
 
+  get filteredItems() {
+    return this.items.filter(item =>
+      item.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
+  }
+
 }
