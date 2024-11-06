@@ -77,6 +77,8 @@
           La imagen es obligatoria.
         </div>
       </div>
+
+      <br>
   
       <!-- Botón de Envío -->
       <button type="submit" class="btn btn-primary" [disabled]="itemForm.invalid">
@@ -104,9 +106,27 @@
       <thead>
         <tr>
           <th>Imagen</th>
-          <th>Nombre</th>
-          <th>Descripción</th>
-          <th>Calificacion</th>
+          <th (click)="setSortField('name')" 
+            [class.active]="sortField === 'name'">
+            Nombre 
+            <span *ngIf="sortField === 'name'">
+                {{ sortOrder === 'asc' ? '▼' : '▲' }}
+            </span>
+          </th>
+          <th (click)="setSortField('description')" 
+            [class.active]="sortField === 'description'">
+            Descripción 
+            <span *ngIf="sortField === 'description'">
+                {{ sortOrder === 'asc' ? '▼' : '▲' }}
+            </span>
+          </th>
+          <th (click)="setSortField('rate')" 
+            [class.active]="sortField === 'rate'">
+            Calificacion 
+            <span *ngIf="sortField === 'rate'">
+                {{ sortOrder === 'asc' ? '▲' : '▼' }}
+            </span>
+          </th>
           <th>Acciones</th>
         </tr>
       </thead>

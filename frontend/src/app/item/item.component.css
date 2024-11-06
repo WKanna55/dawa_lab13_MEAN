@@ -1,0 +1,14 @@
+th {
+    cursor: pointer;
+    padding: 8px;
+}
+
+th.active {
+    color: #007bff; /* Color azul para destacar el encabezado seleccionado */
+    font-weight: bold;
+}
+
+th.active span {
+    margin-left: 5px;
+    font-size: 12px;
+}
