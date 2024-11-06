@@ -2,7 +2,7 @@
     <h2>Peliculas y series</h2>
   
     <!-- Formulario para crear/editar un item -->
-    <form #itemForm="ngForm" (ngSubmit)="itemForm.valid && (currentItem._id ? updateItem(currentItem._id, currentItem) : createItemImage())" novalidate>
+    <form #itemForm="ngForm" (ngSubmit)="itemForm.valid && (currentItem._id ? updateItem(currentItem._id) : createItemImage())" novalidate>
       
       <!-- Campo Nombre -->
       <div class="form-group">

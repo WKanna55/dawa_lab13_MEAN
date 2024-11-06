@@ -44,28 +44,29 @@ exports.createItem = (req, res) => {
 
 // Actualizar un elemento existente 
 exports.updateItem = (req, res) => {
-    const updateData = {
+    const updatedData = {
         name: req.body.name,
         description: req.body.description,
-        rate: req.body.rate
+        rate: req.body.rate,
     };
 
-    // Solo actualizar imagePath si se cargó una nueva imagen
+    // Si se ha subido una nueva imagen, actualizamos la propiedad `imagePath`
     if (req.file) {
-        updateData.imagePath = `/uploads/${req.file.filename}`;
+        updatedData.imagePath = `/uploads/${req.file.filename}`;
     }
 
-    Item.findByIdAndUpdate(req.params.id, updateData, { new: true })
-    .then((item) => {
-        if (!item) {
-            return res.status(404).json({ message: 'Elemento no encontrado' });
-        }
-        res.json(item);
-    })
-    .catch((error) => {
-        res.status(500).json({ error: error.message });
-    });
+    Item.findByIdAndUpdate(req.params.id, updatedData, { new: true })
+        .then((item) => {
+            if (!item) {
+                return res.status(404).json({ message: 'Elemento no encontrado' });
+            }
+            res.json(item);
+        })
+        .catch((error) => {
+            res.status(500).json({ error: error.message });
+        });
 };
+
 
 // Eliminar un elemento existente 
 exports.deleteItem = (req, res) => { Item.findByIdAndDelete(req.params.id) .then((item) => {

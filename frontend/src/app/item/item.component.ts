@@ -42,13 +42,24 @@ export class ItemComponent implements OnInit {
       });
   }
 
-  updateItem(id: string, item: any): void {
-    this.itemService.updateItem(id, item)
-      .subscribe(() => {
-        alert('Elemento actualizado con éxito');
-        this.getItems();
-        this.currentItem = {};
-      });
+  updateItem(id: string): void {
+    const formData = new FormData();
+    formData.append('name', this.currentItem.name);
+    formData.append('description', this.currentItem.description);
+    formData.append('rate', this.currentItem.rate);
+
+    // Solo añadimos la imagen si se ha seleccionado una nueva
+    if (this.selectedFile) {
+        formData.append('image', this.selectedFile, this.selectedFile.name);
+    }
+
+    this.itemService.updateItem(id, formData)
+        .subscribe(() => {
+            alert('Elemento actualizado con éxito');
+            this.getItems();
+            this.currentItem = {};
+            this.selectedFile = null;  // Limpiar el archivo seleccionado
+        });
   }
 
   deleteItem(id: string): void {
