@@ -3,6 +3,9 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const itemController = require('./controllers/itemController');
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
+
 
 const app = express();
 const port = 3000;
@@ -10,6 +13,8 @@ const port = 3000;
 // Configuración de middleware
 app.use(cors());
 app.use(bodyParser.json());
+
+app.use('/uploads', express.static('uploads'));
 
 // Conexión a la base de datos de MongoDB
 mongoose.connect('mongodb://0.0.0.0:27017/mydatabase', { useNewUrlParser: true, useUnifiedTopology: true })
@@ -23,8 +28,8 @@ mongoose.connect('mongodb://0.0.0.0:27017/mydatabase', { useNewUrlParser: true, 
 // Definir rutas para CRUD
 app.get('/api/items', itemController.getItems);
 app.get('/api/items/:id', itemController.getItemById); 
-app.post('/api/items', itemController.createItem);
-app.put('/api/items/:id', itemController.updateItem); 
+app.post('/api/items', upload.single('image'), itemController.createItem);
+app.put('/api/items/:id', upload.single('image'), itemController.updateItem); 
 app.delete('/api/items/:id', itemController.deleteItem); 
 
 // Iniciar el servidor

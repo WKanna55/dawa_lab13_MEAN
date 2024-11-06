@@ -10,6 +10,7 @@ import { ItemService } from '../item.service';
 export class ItemComponent implements OnInit { 
   items: any[] = [];
   currentItem: any = {};
+  searchTerm: string = '';
 
   constructor(private itemService: ItemService) { }
   
@@ -34,6 +35,7 @@ export class ItemComponent implements OnInit {
   createItem(item: any): void {
     this.itemService.createItem(item)
       .subscribe(() => {
+        alert('Elemento creado con éxito');
         this.getItems();
         this.currentItem = {};
       });
@@ -42,6 +44,7 @@ export class ItemComponent implements OnInit {
   updateItem(id: string, item: any): void {
     this.itemService.updateItem(id, item)
       .subscribe(() => {
+        alert('Elemento actualizado con éxito');
         this.getItems();
         this.currentItem = {};
       });
@@ -54,7 +57,14 @@ export class ItemComponent implements OnInit {
       });
   }
 
+  confirmDelete(id: string): void {
+    if (confirm('¿Estás seguro de que deseas eliminar este elemento?')) {
+      this.deleteItem(id);
+    }
+  }
+
   editItem(id: string): void {
     this.getItemById(id);
   }
+
 }

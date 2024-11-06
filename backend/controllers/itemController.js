@@ -30,6 +30,7 @@ exports.createItem = (req, res) => {
     const newItem = new Item({
         name: req.body.name,
         description: req.body.description,
+        rate: req.body.rate,
         // Otros campos que desees para tu modelo 
     });
     newItem.save()
