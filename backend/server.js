@@ -4,7 +4,21 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const itemController = require('./controllers/itemController');
 const multer = require('multer');
-const upload = multer({ dest: 'uploads/' });
+const path = require('path');
+
+// Configura el almacenamiento de multer
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, 'uploads/');
+    },
+    filename: (req, file, cb) => {
+      cb(null, Date.now() + path.extname(file.originalname));
+    }
+  });
+
+  
+// Configura multer
+const upload = multer({ storage });
 
 
 const app = express();

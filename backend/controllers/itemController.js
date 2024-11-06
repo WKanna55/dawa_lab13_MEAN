@@ -31,7 +31,7 @@ exports.createItem = (req, res) => {
         name: req.body.name,
         description: req.body.description,
         rate: req.body.rate,
-        // Otros campos que desees para tu modelo 
+        imagePath: req.file ? `/uploads/${req.file.filename}` : ''
     });
     newItem.save()
     .then((item) => {
@@ -44,7 +44,19 @@ exports.createItem = (req, res) => {
 
 // Actualizar un elemento existente 
 exports.updateItem = (req, res) => {
-    Item.findByIdAndUpdate(req.params.id, req.body, { new: true }) .then((item) => {
+    const updateData = {
+        name: req.body.name,
+        description: req.body.description,
+        rate: req.body.rate
+    };
+
+    // Solo actualizar imagePath si se cargó una nueva imagen
+    if (req.file) {
+        updateData.imagePath = `/uploads/${req.file.filename}`;
+    }
+
+    Item.findByIdAndUpdate(req.params.id, updateData, { new: true })
+    .then((item) => {
         if (!item) {
             return res.status(404).json({ message: 'Elemento no encontrado' });
         }

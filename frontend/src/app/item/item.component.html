@@ -2,7 +2,7 @@
     <h2>Peliculas y series</h2>
   
     <!-- Formulario para crear/editar un item -->
-    <form #itemForm="ngForm" (ngSubmit)="itemForm.valid && (currentItem._id ? updateItem(currentItem._id, currentItem) : createItem(currentItem))" novalidate>
+    <form #itemForm="ngForm" (ngSubmit)="itemForm.valid && (currentItem._id ? updateItem(currentItem._id, currentItem) : createItemImage())" novalidate>
       
       <!-- Campo Nombre -->
       <div class="form-group">
@@ -57,6 +57,26 @@
           La calificacion es obligatoria.
         </div>
       </div>
+
+      <!-- Campo imagen -->
+      <div class="form-group">
+        <label for="imagePath">Imagen:</label>
+        <input
+          type="file"
+          class="form-control"
+          id="imagePath"
+          [(ngModel)]="currentItem.imagePath"
+          name="imagePath"
+          (change)="onFileSelected($event)"
+          accept="image/*"
+          required
+          #imagePath="ngModel"
+          [ngClass]="{ 'is-invalid': imagePath.invalid && (imagePath.dirty || imagePath.touched), 'is-valid': imagePath.valid }"
+        />
+        <div *ngIf="imagePath.invalid && (imagePath.dirty || imagePath.touched)" class="invalid-feedback">
+          La imagen es obligatoria.
+        </div>
+      </div>
   
       <!-- Botón de Envío -->
       <button type="submit" class="btn btn-primary" [disabled]="itemForm.invalid">
@@ -83,6 +103,7 @@
     <table class="table">
       <thead>
         <tr>
+          <th>Imagen</th>
           <th>Nombre</th>
           <th>Descripción</th>
           <th>Calificacion</th>
@@ -91,6 +112,9 @@
       </thead>
       <tbody>
         <tr *ngFor="let item of filteredItems">
+          <td>
+            <img *ngIf="item.imagePath" [src]="'http://localhost:3000' + item.imagePath" alt="{{ item.name }}" width="50">
+          </td>
           <td>{{ item.name }}</td>
           <td>{{ item.description }}</td>
           <td>{{ item.rate }}</td>
